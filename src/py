@@ -1,0 +1,35 @@
+import * as pyodide from 'pyodide';
+
+async function runPyodide() {
+  // Load the Pyodide runtime
+  await pyodide.loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.18.1/full/' });
+
+  // Define the custom input values
+  const customInputs = {
+    name: 'Alice',
+    age: 30,
+    city: 'New York'
+  };
+
+  // Define the Python code string
+  const codeString = `
+    name = input('Enter your name: ')
+    age = input('Enter your age: ')
+    city = input('Enter your city: ')
+
+    print('Name: ' + name)
+    print('Age: ' + age)
+    print('City: ' + city)
+  `;
+
+  // Define the custom input function
+  const customInputFunction = () => {
+    return Object.values(customInputs);
+  };
+
+  // Run the Python code using Pyodide with custom inputs
+  pyodide.runPython(codeString, {input: customInputFunction});
+}
+
+// Call the async function to run Pyodide
+runPyodide();
